@@ -27,8 +27,9 @@ process each service starts, and checks the answer's sentences and the file's ow
 ## What it checks
 
 **Stated results.** "`web` runs `npm run dev`", "`docker compose run web npm test` runs `npm test`", "`$GREETING`
-becomes `hi`". A stated command line that differs from what compose starts is called wrong only when one of 13
-known misreadings reproduces it exactly. Otherwise it is left unchecked.
+becomes `hi`". A stated command line that differs from what compose starts is called wrong only when a known
+misreading reproduces it exactly; otherwise it is left unchecked. Ten of the slips below can reproduce a stated
+line; the other three come from stated rules.
 
 | Slip | The misreading |
 |---|---|
@@ -146,18 +147,22 @@ file on its own.
 | Gate | Result |
 |---|---|
 | `swift build` | 0 errors, 0 warnings |
-| `swift test --enable-code-coverage` | 66 tests in 13 suites (Swift Testing), all passing |
-| `llvm-cov report` | 100.00% lines (2313/2313) and functions (517/517) on all 24 library files; regions 99.93% (1489/1490) |
+| `swift test --enable-code-coverage` | 67 tests in 14 suites (Swift Testing), all passing |
+| `llvm-cov report` | 100.00% lines (2332/2332) and functions (520/520) on all 24 library files; regions 99.93% (1498/1499) |
 | `swiftlint lint --strict` | 0 violations in 26 files (SwiftLint, run for real) |
 | Parity | 260/260 cases match `docker inspect` |
-| Probes | 39 correct answers never flagged; 12 wrong answers caught with the right slip |
+| Probes | 50 correct answers never flagged; 12 wrong answers caught with the right slip |
 
 Coverage is measured with `--no-parallel` and filtered to `Sources/ComposeCommandClaimKit`.
 
 ## Limits
 
-- One compose file at a time. An answer with several (base plus override) leaves its stated results unchecked:
-  merging is [ComposeMergeClaimKit](https://github.com/rajatslakhina/compose-merge-claim-kit)'s job.
+- One compose file at a time. An answer with several (base plus override, or a before and after) leaves its stated
+  results unchecked: merging is [ComposeMergeClaimKit](https://github.com/rajatslakhina/compose-merge-claim-kit)'s
+  job. File lines are checked on the answer's last compose file, and not on a file the question already showed, so
+  an answer that quotes your broken file is not flagged for it.
+- A paragraph about Kubernetes (or a manifest anywhere in the conversation) states no compose rules.
+- Two denials in one clause ("doesn't run it in a shell and doesn't expand `~`") are not read as a rule.
 - A variable the conversation never sets comes from a shell nobody showed, so a command that uses one is unchecked
   (or holds only with a caveat, when the stated value is the one `environment:` sets).
 - An image the conversation does not show has an unknown `ENTRYPOINT`: a claim that names the command holds, and a

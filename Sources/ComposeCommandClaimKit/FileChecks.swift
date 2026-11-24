@@ -43,7 +43,11 @@ enum FileChecks {
                                                                     written: text)))
             }
             let names = setting.writtenTexts.flatMap(Interpolation.names(in:))
-                .filter { service.environment[$0] != nil && setting.unknownVariables.contains($0) }
+                .filter { name in
+                    // `PASSWORD: ${PASSWORD}` passes the shell's value on: that is the shell's, as the command's is.
+                    service.environment[name].map { !$0.contains("$") } == true
+                        && setting.unknownVariables.contains(name)
+                }
             if let name = names.first {
                 found.append(Problem(setting: setting, problem: .environmentVariable,
                                      outcome: .caveat(.variableFromShell),

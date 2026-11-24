@@ -11,7 +11,8 @@ struct Clause: Sendable, Hashable {
     static let leadIns = ["note that", "remember that", "keep in mind that", "be aware that", "beware that", "also,",
                           "also", "so", "and", "but", "here,", "in short,", "in other words,", "because", "since",
                           "that's because", "this is because", "the reason is that", "that is,", "now,", "then,",
-                          "otherwise,", "instead,", "in fact,", "actually,", "however,"]
+                          "otherwise,", "instead,", "in fact,", "actually,", "however,", "no,", "yes,", "right,",
+                          "correct,", "exactly,", "indeed,"]
 
     init(_ raw: String) {
         var text = raw.trimmed

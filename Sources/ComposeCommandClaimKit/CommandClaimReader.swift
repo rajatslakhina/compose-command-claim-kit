@@ -22,15 +22,19 @@ public struct CommandClaimReader: Sendable {
                 lastRun = runs.count == 1 ? runs[0] : nil
                 continue
             }
+            // A paragraph about Kubernetes states its rules, where `command:` replaces the ENTRYPOINT.
+            let kubernetes = ["kubernetes", "k8s", "kubectl", "pod spec", "podspec", "a pod"]
+            let rules = !Words.containsAny(block.text.folded, kubernetes)
             for sentence in Sentences.split(block.lines) where !sentence.hasSuffix("?") {
-                claims += read(sentence, previousRun: lastRun, scene: scene)
+                claims += read(sentence, previousRun: lastRun, scene: scene, rules: rules)
             }
             lastRun = nil
         }
         return claims
     }
 
-    func read(_ sentence: String, previousRun: RunCommand?, scene: CommandScene) -> [CommandClaim] {
+    func read(_ sentence: String, previousRun: RunCommand?, scene: CommandScene,
+              rules: Bool = true) -> [CommandClaim] {
         let sentenceRun = Sentences.codeSpans(sentence).compactMap(RunCommand.parse).last
         let pointsBack = ["this", "that", "it", "here"].contains {
             sentence.folded.hasPrefix($0 + " ") || sentence.folded.hasPrefix($0 + ",")
@@ -40,7 +44,8 @@ public struct CommandClaimReader: Sendable {
         for raw in Sentences.clauses(sentence) {
             let clause = Clause(raw)
             guard !clause.isInstruction, !clause.isHypothetical else { continue }
-            if let claim = rule(clause, sentence: sentence, scene: scene) ?? variable(clause, sentence, scene)
+            let stated = rules ? rule(clause, sentence: sentence, scene: scene) : nil
+            if let claim = stated ?? variable(clause, sentence, scene)
                 ?? runs(clause, sentence, run: run, scene: scene) {
                 claims.append(claim)
             }
@@ -53,6 +58,8 @@ public struct CommandClaimReader: Sendable {
             guard let phrase = cue.phrases.first(where: { Words.contains(clause.plain, $0) }),
                   !cue.excludes.contains(where: { Words.contains(clause.plain, $0) }) else { continue }
             let negations = Sentences.negationCount(clause.plain.replacingOccurrences(of: phrase, with: " "))
+            // Two denials in one clause ("doesn't run it in a shell and doesn't expand `~`") are not read.
+            guard negations <= 1 else { return nil }
             let token = clause.variableToken
             let empty = RuleCues.emptyEntrypoint(clause)
             let service = token.flatMap { Self.service(using: $0, scene) } ?? Self.service(in: clause, sentence, scene)

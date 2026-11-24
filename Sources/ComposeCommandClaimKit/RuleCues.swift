@@ -35,7 +35,9 @@ enum RuleCues {
                           "treated literally", "kept literally", "as plain text",
                           "as literal text", "as a string", "another argument", "an extra argument",
                           "a plain argument", "a literal argument"],
-                excludes: elsewhere),
+                // Inside a quoted script or a list item, `&&` is part of an argument: that is true.
+                excludes: elsewhere + ["list form", "the list", "a list", "script", "quoted", "in quotes", "sh -c",
+                                       "bash -c", "included", "as part of", "to sh", "to bash", "inside the string"]),
         RuleCue(rule: .operatorDropsRest, topic: operatorToken,
                 phrases: ["is dropped", "are dropped", "gets dropped", "drops", "is ignored", "are ignored",
                           "gets ignored", "ignores", "is discarded", "discards", "cut off", "cuts off", "truncated",

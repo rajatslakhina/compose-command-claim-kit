@@ -72,7 +72,7 @@ enum SceneReader {
         let contextBlocks = classify(context)
         var scene = CommandScene()
         scene.variables = variables(answerBlocks, contextBlocks, earlier: earlier?.variables ?? Variables())
-        scene.kubernetes = answerBlocks.contains { $0.kind == .kubernetes }
+        scene.kubernetes = (answerBlocks + contextBlocks).contains { $0.kind == .kubernetes }
         let dockerfiles = answerBlocks.filter { $0.kind == .dockerfile }
         let contextDockerfiles = contextBlocks.filter { $0.kind == .dockerfile }
         let shownDockerfiles = dockerfiles.isEmpty ? contextDockerfiles : dockerfiles
@@ -84,7 +84,12 @@ enum SceneReader {
         let files = answerBlocks.filter { $0.kind == .compose }.map(\.block.text)
         let contextFiles = contextBlocks.filter { $0.kind == .compose }.map(\.block.text)
         let readings = files.map { ComposeProject.read($0, variables: scene.variables) }
-        scene.answerFiles = readings.compactMap { if case let .project(project) = $0 { project } else { nil } }
+        // File lines are checked on the answer's last compose file, unless it quotes one the question showed.
+        let quoted = Set(contextFiles.map(StatedWords.normalized))
+        if let last = files.last, !quoted.contains(StatedWords.normalized(last)),
+           case let .project(project)? = readings.last {
+            scene.answerFiles = [project]
+        }
         let shown = files.isEmpty ? contextFiles.map { ComposeProject.read($0, variables: scene.variables) } : readings
         switch (shown.count, shown.first) {
         case (0, _):

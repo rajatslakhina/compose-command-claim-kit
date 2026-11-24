@@ -96,25 +96,28 @@ public struct ContainerProcess: Sendable, Hashable {
     /// Whether a stated command line names this process: every word, the command an entrypoint wrapper hands on, or
     /// the script a shell runs.
     func matches(words stated: [String], text: String) -> Match {
-        let script = StatedWords.normalized(text)
         if let words {
             if stated == words { return .yes }
             if let entrypoint, let command, stated == command, !command.isEmpty, Self.handsOn(entrypoint) {
                 return .yes
             }
-            if let shell = shellScript, StatedWords.normalized(shell.script) == script, shell.rest.isEmpty {
-                return .yes
-            }
-            return .no
+            return Self.names(shellScript, words, text) ? .yes : .no
         }
         guard let command else { return .possible }
         if stated == command, !command.isEmpty { return .yes }
-        if let shell = ContainerProcess(entrypoint: [], command: command).shellScript,
-           StatedWords.normalized(shell.script) == script, shell.rest.isEmpty {
-            return .yes
-        }
+        if Self.names(ContainerProcess(entrypoint: [], command: command).shellScript, command, text) { return .yes }
         if stated.count > command.count, Array(stated.suffix(command.count)) == command { return .possible }
         return .no
+    }
+
+    /// Whether the text names a shell's script: the script alone, or the shell and `-c` written before it unquoted
+    /// (`sh -c npm install && npm start`).
+    static func names(_ shell: (script: String, rest: [String])?, _ words: [String], _ text: String) -> Bool {
+        guard let shell, shell.rest.isEmpty else { return false }
+        let stated = StatedWords.normalized(text)
+        let script = StatedWords.normalized(shell.script)
+        let written = words.prefix(2).joined(separator: " ") + " " + script
+        return stated == script || stated == StatedWords.normalized(written)
     }
 
     /// The command line as a person would type it.

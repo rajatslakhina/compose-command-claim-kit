@@ -69,7 +69,7 @@ enum Sentences {
 
     static func negationCount(_ prose: String) -> Int {
         var count = 0
-        for word in ["not", "never", "no longer", "neither", "nor", "cannot", "no", "nothing", "none"]
+        for word in ["not", "never", "no longer", "neither", "nor", "cannot", "nothing", "none"]
             where Words.contains(prose, word) {
             count += 1
         }
