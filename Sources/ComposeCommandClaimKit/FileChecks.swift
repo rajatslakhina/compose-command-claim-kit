@@ -42,7 +42,9 @@ enum FileChecks {
                                      explanation: Wording.truncated(key, stop: stop, words: words, setting: setting.key,
                                                                     written: text)))
             }
-            let names = setting.writtenTexts.flatMap(Interpolation.names(in:))
+            // `${PORT:-3000}` has a value either way: no caution for a name written with a default.
+            let defaulted = Set(setting.writtenTexts.flatMap(Interpolation.defaultedNames(in:)))
+            let names = setting.writtenTexts.flatMap(Interpolation.names(in:)).filter { !defaulted.contains($0) }
                 .filter { name in
                     // `PASSWORD: ${PASSWORD}` passes the shell's value on: that is the shell's, as the command's is.
                     service.environment[name].map { !$0.contains("$") } == true

@@ -40,6 +40,11 @@ enum Interpolation {
         return names
     }
 
+    /// The names a text writes with a default (`${NAME:-x}`, `${NAME-x}`).
+    static func defaultedNames(in text: String) -> [String] {
+        names(in: text).filter { text.contains("${\($0):-") || text.contains("${\($0)-") }
+    }
+
     /// The names a text writes as `$$NAME` or `$${NAME}`: passed to the container as `$NAME`.
     static func escapedNames(in text: String) -> [String] {
         var names: [String] = []

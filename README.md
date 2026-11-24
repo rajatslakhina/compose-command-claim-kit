@@ -147,11 +147,11 @@ file on its own.
 | Gate | Result |
 |---|---|
 | `swift build` | 0 errors, 0 warnings |
-| `swift test --enable-code-coverage` | 67 tests in 14 suites (Swift Testing), all passing |
-| `llvm-cov report` | 100.00% lines (2334/2334) and functions (520/520) on all 24 library files; regions 99.93% (1498/1499) |
+| `swift test --enable-code-coverage` | 68 tests in 15 suites (Swift Testing), all passing |
+| `llvm-cov report` | 100.00% lines (2369/2369) and functions (536/536) on all 24 library files; regions 99.93% (1522/1523) |
 | `swiftlint lint --strict` | 0 violations in 26 files (SwiftLint, run for real) |
 | Parity | 260/260 cases match `docker inspect` |
-| Probes | 50 correct answers never flagged; 12 wrong answers caught with the right slip |
+| Probes | 54 correct answers never flagged; 12 wrong answers caught with the right slip |
 
 Coverage is measured with `--no-parallel` and filtered to `Sources/ComposeCommandClaimKit`.
 
@@ -162,7 +162,10 @@ Coverage is measured with `--no-parallel` and filtered to `Sources/ComposeComman
   job. File lines are checked on the answer's last compose file, and not on a file the question already showed, so
   an answer that quotes your broken file is not flagged for it.
 - A paragraph about Kubernetes (or a manifest anywhere in the conversation) states no compose rules.
-- Two denials in one clause ("doesn't run it in a shell and doesn't expand `~`") are not read as a rule.
+- Two denials in one clause ("doesn't run it in a shell and doesn't expand `~`") are not read as a rule, and neither
+  is a clause that states both sides of one ("drops the image's `CMD` while `command` is still appended").
+- What a sentence says runs is not read when its clause is about the image (`CMD`, `ENTRYPOINT`, a Dockerfile) or
+  the sentence shows a `command:` or `entrypoint:` setting inline (it describes that setting, not the file).
 - A variable the conversation never sets comes from a shell nobody showed, so a command that uses one is unchecked
   (or holds only with a caveat, when the stated value is the one `environment:` sets).
 - An image the conversation does not show has an unknown `ENTRYPOINT`: a claim that names the command holds, and a

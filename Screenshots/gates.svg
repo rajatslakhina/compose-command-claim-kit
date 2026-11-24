@@ -6,16 +6,16 @@
 <text x="260" y="74" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">0 errors, 0 warnings</text>
 <circle cx="34" cy="103" r="6" fill="#3fb950"/>
 <text x="52" y="108" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">swift test</text>
-<text x="260" y="108" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">67 tests in 14 suites, all passing</text>
+<text x="260" y="108" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">68 tests in 15 suites, all passing</text>
 <circle cx="34" cy="137" r="6" fill="#3fb950"/>
 <text x="52" y="142" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">llvm-cov lines</text>
-<text x="260" y="142" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (2334/2334) on all 24 library files</text>
+<text x="260" y="142" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (2369/2369) on all 24 library files</text>
 <circle cx="34" cy="171" r="6" fill="#3fb950"/>
 <text x="52" y="176" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">llvm-cov functions</text>
-<text x="260" y="176" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (520/520)</text>
+<text x="260" y="176" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (536/536)</text>
 <circle cx="34" cy="205" r="6" fill="#3fb950"/>
 <text x="52" y="210" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">llvm-cov regions</text>
-<text x="260" y="210" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">99.93% (1498/1499)</text>
+<text x="260" y="210" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">99.93% (1522/1523)</text>
 <circle cx="34" cy="239" r="6" fill="#3fb950"/>
 <text x="52" y="244" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">swiftlint --strict</text>
 <text x="260" y="244" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">0 violations in 26 files</text>
@@ -24,7 +24,7 @@
 <text x="260" y="278" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">260/260 cases: same Path and Args as docker inspect</text>
 <circle cx="34" cy="307" r="6" fill="#3fb950"/>
 <text x="52" y="312" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">probes</text>
-<text x="260" y="312" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">50 correct answers quiet, 12 wrong answers caught with the right slip</text>
+<text x="260" y="312" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">54 correct answers quiet, 12 wrong answers caught with the right slip</text>
 <circle cx="34" cy="341" r="6" fill="#3fb950"/>
 <text x="52" y="346" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">demo</text>
 <text x="260" y="346" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">59 lines, two runs byte-identical</text>

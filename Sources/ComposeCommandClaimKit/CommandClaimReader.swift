@@ -57,6 +57,8 @@ public struct CommandClaimReader: Sendable {
         for cue in RuleCues.all where cue.topic(clause) {
             guard let phrase = cue.phrases.first(where: { Words.contains(clause.plain, $0) }),
                   !cue.excludes.contains(where: { Words.contains(clause.plain, $0) }) else { continue }
+            // Both sides of a rule in one clause ("drops the `CMD` while `command` is still appended") are not read.
+            if RuleCues.pairStated(cue.rule, clause) { return nil }
             let negations = Sentences.negationCount(clause.plain.replacingOccurrences(of: phrase, with: " "))
             // Two denials in one clause ("doesn't run it in a shell and doesn't expand `~`") are not read.
             guard negations <= 1 else { return nil }
@@ -97,7 +99,7 @@ public struct CommandClaimReader: Sendable {
     static let stopWords: Set<String> = ["instead", "than", "after", "before", "not", "unless", "if", "of", "when"]
 
     func runs(_ clause: Clause, _ sentence: String, run: RunCommand?, scene: CommandScene) -> CommandClaim? {
-        guard Sentences.negationCount(clause.prose) == 0 else { return nil }
+        guard Sentences.negationCount(clause.prose) == 0, !Self.describesElsewhere(clause, sentence) else { return nil }
         let pieces = Sentences.pieces(clause.text)
         for index in stride(from: 0, to: pieces.count - 1, by: 2) {
             let text = pieces[index].text.folded
@@ -121,6 +123,16 @@ public struct CommandClaimReader: Sendable {
             return CommandClaim(kind: .runs(service: service, stated: stated, run: run), sentence: sentence)
         }
         return nil
+    }
+
+    /// A clause about the image (`CMD`, `ENTRYPOINT`, a Dockerfile), or a sentence that shows a `command:` or
+    /// `entrypoint:` setting inline: what it says runs is not the compose file's process.
+    static func describesElsewhere(_ clause: Clause, _ sentence: String) -> Bool {
+        if clause.codes.contains(where: { $0 == "CMD" || $0 == "ENTRYPOINT" })
+            || Words.contains(clause.plain, "dockerfile") {
+            return true
+        }
+        return Sentences.codeSpans(sentence).contains { $0.hasPrefix("command:") || $0.hasPrefix("entrypoint:") }
     }
 
     /// Code that reads as a command line, not as a key, a service, a file or a `docker` command.

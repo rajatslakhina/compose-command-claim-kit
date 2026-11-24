@@ -100,6 +100,25 @@ enum RuleCues {
                           "image's default command", "the default cmd", "image's cmd is used", "keeps the image's"])
     ]
 
+    /// The other side of each rule.
+    static let pairs: [Rule: Rule] = [
+        .operatorPassedAsArgument: .operatorDropsRest, .operatorDropsRest: .operatorPassedAsArgument,
+        .variablesFromContainer: .variablesFromShell, .variablesFromShell: .variablesFromContainer,
+        .entrypointKeepsImageCmd: .entrypointDropsImageCmd, .entrypointDropsImageCmd: .entrypointKeepsImageCmd,
+        .commandReplacesEntrypoint: .commandFollowsEntrypoint, .commandFollowsEntrypoint: .commandReplacesEntrypoint,
+        .runAppendsArguments: .runReplacesCommand, .runReplacesCommand: .runAppendsArguments,
+        .runEntrypointKeepsCommand: .runEntrypointDropsCommand, .runEntrypointDropsCommand: .runEntrypointKeepsCommand,
+        .emptyCommandClears: .emptyCommandFallsBack, .emptyCommandFallsBack: .emptyCommandClears
+    ]
+
+    /// Whether the clause also states the other side of the rule.
+    static func pairStated(_ rule: Rule, _ clause: Clause) -> Bool {
+        guard let other = pairs[rule] else { return false }
+        return all.contains { cue in
+            cue.rule == other && cue.topic(clause) && cue.phrases.contains { Words.contains(clause.plain, $0) }
+        }
+    }
+
     static func commandKey(_ clause: Clause) -> Bool {
         clause.codes.contains { $0 == "command" || $0.hasPrefix("command:") }
             || Words.containsAny(clause.plain, ["the command string", "a string command", "command string",
