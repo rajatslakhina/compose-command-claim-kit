@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="420" viewBox="0 0 1300 420">
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#8b949e"/></marker></defs>
+<rect width="1300" height="420" rx="10" fill="#0d1117"/>
+<text x="30" y="40" fill="#e6edf3" font-size="18" font-weight="bold" font-family="Helvetica, Arial, sans-serif">ComposeCommandClaimKit &#8212; what a compose service really runs</text>
+<rect x="30" y="70" width="260" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="44" y="96" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">Answer + context</text>
+<text x="44" y="120" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">fenced compose YAML</text>
+<text x="44" y="138" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">Dockerfile, .env, export</text>
+<text x="44" y="156" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">docker compose run lines</text>
+<text x="44" y="174" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">prose sentences</text>
+<rect x="330" y="70" width="300" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="344" y="96" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">SceneReader</text>
+<text x="344" y="120" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">ComposeYAML (block scalars exact)</text>
+<text x="344" y="138" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">Variables: shell, then .env</text>
+<text x="344" y="156" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">ImageCommands (EntrypointClaimKit)</text>
+<text x="344" y="174" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">Kubernetes manifest: read nothing</text>
+<rect x="670" y="70" width="300" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="684" y="96" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">CommandSetting</text>
+<text x="684" y="120" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">Interpolation: $VAR, ${VAR:-d}, $$</text>
+<text x="684" y="138" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">CommandWords: go-shellwords</text>
+<text x="684" y="156" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">stops at &amp;&amp; ; | &lt; &gt;</text>
+<text x="684" y="174" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">refuses ( ) and open quotes</text>
+<rect x="1010" y="70" width="260" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="1024" y="96" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">ContainerProcess</text>
+<text x="1024" y="120" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">entrypoint + command</text>
+<text x="1024" y="138" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">run args, --entrypoint</text>
+<text x="1024" y="156" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">empty entrypoint keeps CMD</text>
+<text x="1024" y="174" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">entrypoint: drops CMD</text>
+<rect x="330" y="250" width="300" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="344" y="276" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">CommandClaimReader</text>
+<text x="344" y="300" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">runs: `web` runs `x`</text>
+<text x="344" y="318" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">variable: `$X` becomes `v`</text>
+<text x="344" y="336" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">rule: 15 stated rules</text>
+<text x="344" y="354" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">file lines: 5 problems</text>
+<rect x="670" y="250" width="300" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="684" y="276" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">CommandEvaluator</text>
+<text x="684" y="300" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">match the process</text>
+<text x="684" y="318" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">Misreadings: 13 slips</text>
+<text x="684" y="336" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">wrong only when a slip</text>
+<text x="684" y="354" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">reproduces the claim</text>
+<rect x="1010" y="250" width="260" height="120" rx="8" fill="#161b22" stroke="#58a6ff"/>
+<text x="1024" y="276" fill="#58a6ff" font-size="15" font-weight="bold" font-family="Menlo, Consolas, monospace">CommandReport</text>
+<text x="1024" y="300" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">noClaims / verified /</text>
+<text x="1024" y="318" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">unchecked / caution / wrong</text>
+<text x="1024" y="336" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">note, feedback, summary</text>
+<text x="1024" y="354" fill="#e6edf3" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">CommandLedger: turns, repeats</text>
+<line x1="290" y1="130" x2="330" y2="130" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<line x1="630" y1="130" x2="670" y2="130" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<line x1="970" y1="130" x2="1010" y2="130" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<line x1="480" y1="190" x2="480" y2="250" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<line x1="630" y1="310" x2="670" y2="310" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<line x1="970" y1="310" x2="1010" y2="310" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<line x1="1140" y1="190" x2="820" y2="250" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+<text x="30" y="405" fill="#8b949e" font-size="12" font-weight="normal" font-family="Menlo, Consolas, monospace">Oracle: docker compose config, create and run -d + docker inspect (Docker Compose 2.32.4)</text>
+</svg>
