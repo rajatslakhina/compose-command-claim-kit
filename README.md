@@ -148,7 +148,7 @@ file on its own.
 |---|---|
 | `swift build` | 0 errors, 0 warnings |
 | `swift test --enable-code-coverage` | 67 tests in 14 suites (Swift Testing), all passing |
-| `llvm-cov report` | 100.00% lines (2332/2332) and functions (520/520) on all 24 library files; regions 99.93% (1498/1499) |
+| `llvm-cov report` | 100.00% lines (2334/2334) and functions (520/520) on all 24 library files; regions 99.93% (1498/1499) |
 | `swiftlint lint --strict` | 0 violations in 26 files (SwiftLint, run for real) |
 | Parity | 260/260 cases match `docker inspect` |
 | Probes | 50 correct answers never flagged; 12 wrong answers caught with the right slip |

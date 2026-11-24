@@ -9,7 +9,7 @@
 <text x="260" y="108" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">67 tests in 14 suites, all passing</text>
 <circle cx="34" cy="137" r="6" fill="#3fb950"/>
 <text x="52" y="142" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">llvm-cov lines</text>
-<text x="260" y="142" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (2332/2332) on all 24 library files</text>
+<text x="260" y="142" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (2334/2334) on all 24 library files</text>
 <circle cx="34" cy="171" r="6" fill="#3fb950"/>
 <text x="52" y="176" fill="#58a6ff" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">llvm-cov functions</text>
 <text x="260" y="176" fill="#e6edf3" font-size="14" font-weight="normal" font-family="Menlo, Consolas, monospace">100.00% (520/520)</text>
