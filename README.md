@@ -147,13 +147,28 @@ file on its own.
 | Gate | Result |
 |---|---|
 | `swift build` | 0 errors, 0 warnings |
-| `swift test --enable-code-coverage` | 68 tests in 15 suites (Swift Testing), all passing |
-| `llvm-cov report` | 100.00% lines (2369/2369) and functions (536/536) on all 24 library files; regions 99.93% (1522/1523) |
+| `swift test --enable-code-coverage` | 70 tests in 16 suites (Swift Testing), all passing |
+| `llvm-cov report` | 100.00% lines (2379/2379) and functions (540/540) on all 24 library files; regions 99.93% (1536/1537) |
 | `swiftlint lint --strict` | 0 violations in 26 files (SwiftLint, run for real) |
 | Parity | 260/260 cases match `docker inspect` |
-| Probes | 54 correct answers never flagged; 12 wrong answers caught with the right slip |
+| Probes | 58 correct answers never flagged (4 of them about a healthcheck); 12 wrong answers caught with the right slip |
 
-Coverage is measured with `--no-parallel` and filtered to `Sources/ComposeCommandClaimKit`.
+Coverage is measured with `--no-parallel` and filtered to `Sources/ComposeCommandClaimKit` (Swift 6.4.2, 1.0.2).
+
+## 1.0.2
+
+A correct answer about a healthcheck got a wrong note. Wiring
+[HealthcheckClaimKit](https://github.com/rajatslakhina/healthcheck-claim-kit) into ai-chat-app showed that "The exec
+form runs `curl` directly, so the `||` reached it as an argument" was read as `operatorPassedAsArgument`, and
+"`$POSTGRES_USER` becomes `$$POSTGRES_USER` so it is resolved inside the container" as `variablesFromContainer`.
+Both are true of a healthcheck's `test:` (its exec form hands `||` to the program, and its `CMD-SHELL` form expands
+`$$VAR` in the container). The kit's healthcheck exclusion was checked per clause, and the clause after ", so" names
+no healthcheck.
+
+Those two rules now state nothing when the sentence names a healthcheck, its exec form, `CMD-SHELL` or `test:`, or
+when the one service the sentence is about has a `healthcheck:` but no `command:` or `entrypoint:` of its own.
+Measured on HealthcheckClaimKit's correct answers: 2 of 61 got a note from 1.0.1, 0 of 61 from 1.0.2; the same
+words about a `command:` are still flagged (all 12 wrong probes keep their note).
 
 ## Limits
 
@@ -162,6 +177,8 @@ Coverage is measured with `--no-parallel` and filtered to `Sources/ComposeComman
   job. File lines are checked on the answer's last compose file, and not on a file the question already showed, so
   an answer that quotes your broken file is not flagged for it.
 - A paragraph about Kubernetes (or a manifest anywhere in the conversation) states no compose rules.
+- The operator and variable rules state nothing about a service that runs only a healthcheck, or in a sentence that
+  names a healthcheck or `test:`; a sentence that mixes a healthcheck and a `command:` is left unread for them.
 - Two denials in one clause ("doesn't run it in a shell and doesn't expand `~`") are not read as a rule, and neither
   is a clause that states both sides of one ("drops the image's `CMD` while `command` is still appended").
 - What a sentence says runs is not read when its clause is about the image (`CMD`, `ENTRYPOINT`, a Dockerfile) or

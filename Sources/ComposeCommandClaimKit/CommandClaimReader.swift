@@ -65,10 +65,25 @@ public struct CommandClaimReader: Sendable {
             let token = clause.variableToken
             let empty = RuleCues.emptyEntrypoint(clause)
             let service = token.flatMap { Self.service(using: $0, scene) } ?? Self.service(in: clause, sentence, scene)
+            if Self.aboutHealthcheck(cue.rule, service: service, sentence: sentence, scene: scene) { return nil }
             return CommandClaim(kind: .rule(cue.rule, negated: negations % 2 == 1, token: token, service: service,
                                             emptyValue: empty), sentence: sentence)
         }
         return nil
+    }
+
+    /// Rules about how a `command:` passes operators and variables on, which a healthcheck's `test:` does otherwise:
+    /// its exec form hands `||` to the program, and its `CMD-SHELL` form expands `$$VAR` in the container.
+    static let commandOnlyRules: Set<Rule> = [.operatorPassedAsArgument, .variablesFromContainer]
+    static let healthcheckWords = ["healthcheck", "health check", "exec form", "cmd-shell", "test:"]
+
+    /// The statement is about a healthcheck, not a command: the sentence names one (or its exec form), or the one
+    /// service it is about runs no `command:` or `entrypoint:` of its own but has a `healthcheck:`.
+    static func aboutHealthcheck(_ rule: Rule, service: String?, sentence: String, scene: CommandScene) -> Bool {
+        guard commandOnlyRules.contains(rule) else { return false }
+        if Words.containsAny(Sentences.plain(sentence), healthcheckWords) { return true }
+        guard let found = scene.project?.services.first(where: { $0.name == service }) else { return false }
+        return found.command == nil && found.entrypoint == nil && found.node["healthcheck"] != nil
     }
 
     static let valueVerbs = ["expands to", "becomes", "resolves to", "is replaced with", "is replaced by",
