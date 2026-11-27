@@ -167,8 +167,9 @@ no healthcheck.
 
 Those two rules now state nothing when the sentence names a healthcheck, its exec form, `CMD-SHELL` or `test:`, or
 when the one service the sentence is about has a `healthcheck:` but no `command:` or `entrypoint:` of its own.
-Measured on HealthcheckClaimKit's correct answers: 2 of 61 got a note from 1.0.1, 0 of 61 from 1.0.2; the same
-words about a `command:` are still flagged (all 12 wrong probes keep their note).
+Measured on HealthcheckClaimKit's 61 correct answers plus the two app sentences above: 1.0.1 put a note on 3 (one of
+the 61, `bothVariableForms`, and both app sentences), 1.0.2 on none; the same words about a `command:` are still
+flagged (all 12 wrong probes keep their note).
 
 ## Limits
 
